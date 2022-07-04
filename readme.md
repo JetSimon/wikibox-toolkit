@@ -11,6 +11,8 @@ This is a chrome extension that houses a collection of tools for people who make
 **TODO**
 
 - "Calculate" popular vote, %, etc
+- Add ability to split the vote in a state in election map creation tool
+- Add custom colors to right click menu
 
 ## How to install
 
