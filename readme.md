@@ -14,7 +14,7 @@ TODO:
 
 ---
 
-**How to install**
+## How to install
 
 1. Clone/download this repo
 2. If you downloaded the repo as a zip file, unzip it
