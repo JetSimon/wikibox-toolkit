@@ -1,0 +1,23 @@
+{
+    "name": "wikibox toolkit",
+    "version": "1.0",
+    "description": "A library of tools for aiding the creation of wikiboxes",
+    "permissions": [
+        "contextMenus",
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "host_permissions": [
+        "https://*.wikipedia.org/*"
+    ],
+    "icons": {
+    "128": "images/wikibox-toolkit.png"
+    }
+  }
