@@ -1,7 +1,7 @@
-const statePaths = document.getElementsByClassName("state")[0].children
-
 const demColorPicker = document.getElementById("dem")
 const repColorPicker = document.getElementById("rep")
+
+let selectedText = null
 
 function componentToHex(c) {
     var hex = parseInt(c).toString(16);
@@ -28,12 +28,24 @@ function hexToRgb(hex) {
     } : null;
   }
   
-  
 
-for(let i = 0; i < statePaths.length; i++) {
-    let state = statePaths[i]
-    state.addEventListener("click", setColor)
+function initializeStates()
+{
+    const statePaths = document.getElementsByClassName("state")[0].children
+    for(let i = 0; i < statePaths.length; i++) {
+        let state = statePaths[i]
+        state.addEventListener("click", setColor)
+    }
 }
+
+function initialize()
+{
+    initializeStates()
+    initializeText()
+}
+
+initialize()
+
 
 document.addEventListener("click", clickBody)
 
@@ -67,18 +79,23 @@ function updateAllOfType() {
     }
 }
 
-let selectedText = null
-const textElements = document.querySelectorAll("text");
+function initializeText()
+{
+    const textElements = document.querySelectorAll("text")
+    selectedText = null
 
-for(let i = 0; i < textElements.length; i++) {
-    let text = textElements[i]
-    text.addEventListener("click", () => {
-        if(selectedText == text) return
-        selectedText = text
-        text.innerHTML += '|'
-        text.style.fill = 'green'
-    })
+    for(let i = 0; i < textElements.length; i++) {
+        let text = textElements[i]
+        text.addEventListener("click", () => {
+            if(selectedText == text) return
+            selectedText = text
+            text.innerHTML += '|'
+            text.style.fill = 'green'
+        })
+    }
 }
+
+
 
 document.addEventListener("keyup", function(event) {
     if (event.key === "Return" || event.key === "Enter") {
@@ -142,13 +159,24 @@ async function load()
     const anyDem = document.getElementsByClassName("dem")[0]
     const anyRep = document.getElementsByClassName("rep")[0]
 
-    const demColor = strToRgb(anyDem.style.fill)
-    const repColor = strToRgb(anyRep.style.fill)
+    if(anyDem && anyRep) {
+        const demColor = strToRgb(anyDem.style.fill)
+        const repColor = strToRgb(anyRep.style.fill)
+        
+        demColorPicker.value = rgbToHex(demColor[0], demColor[1], demColor[2])
+        repColorPicker.value = rgbToHex(repColor[0], repColor[1], repColor[2])
+    }
 
-    console.log(demColor, repColor)
-    
-    if(anyDem) demColorPicker.value = rgbToHex(demColor[0], demColor[1], demColor[2])
-    if(anyRep) repColorPicker.value = rgbToHex(repColor[0], repColor[1], repColor[2])
+    const demSquare = document.getElementById("Dem")
+    const repSquare = document.getElementById("Rep")
+
+    if(demSquare && repSquare) {
+        demSquare.classList.add("dem")
+        repSquare.classList.add("rep")
+    }
+
+    initialize()
+    calculateVotes()
 }
 
 const saveButton = document.getElementById("saveButton")
