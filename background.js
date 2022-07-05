@@ -11,7 +11,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 })
 
-const colors = ['red', 'blue', 'pink', 'yellow', 'green']
+const colors = ['red', 'blue', 'pink', 'yellow', 'green', 'black']
 
 for(let i = 0; i < colors.length; i++) {
     chrome.contextMenus.create({
@@ -20,7 +20,6 @@ for(let i = 0; i < colors.length; i++) {
         contexts: ['page', 'selection', 'selection', 'link']
     })
 }
-
 
 function contextClick(info, tab) {
     const { menuItemId } = info
