@@ -4,13 +4,30 @@ const demColorPicker = document.getElementById("dem")
 const repColorPicker = document.getElementById("rep")
 
 function componentToHex(c) {
-    var hex = c.toString(16);
+    var hex = parseInt(c).toString(16);
     return hex.length == 1 ? "0" + hex : hex;
   }
   
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+function strToRgb(s)
+{
+    return s.substring(4, s.length-1)
+         .replace(/ /g, '')
+         .split(',');
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+  
   
 
 for(let i = 0; i < statePaths.length; i++) {
@@ -110,8 +127,35 @@ function download() {
     dl.click();
 }
 
+async function load()
+{
+    const svgToLoad = document.getElementById("loadFile")
+
+    if(svgToLoad == null) return
+
+    svgText = await svgToLoad.files[0].text()
+
+    let svg = document.getElementById("bg")
+    svg.outerHTML = svgText
+    svg.id = "bg"
+
+    const anyDem = document.getElementsByClassName("dem")[0]
+    const anyRep = document.getElementsByClassName("rep")[0]
+
+    const demColor = strToRgb(anyDem.style.fill)
+    const repColor = strToRgb(anyRep.style.fill)
+
+    console.log(demColor, repColor)
+    
+    if(anyDem) demColorPicker.value = rgbToHex(demColor[0], demColor[1], demColor[2])
+    if(anyRep) repColorPicker.value = rgbToHex(repColor[0], repColor[1], repColor[2])
+}
+
 const saveButton = document.getElementById("saveButton")
 saveButton.addEventListener("click", download)
+
+const loadButton = document.getElementById("loadButton")
+loadButton.addEventListener("click", load)
 
 const calculateButton = document.getElementById("calculate")
 calculateButton.addEventListener("click", calculateVotes)
