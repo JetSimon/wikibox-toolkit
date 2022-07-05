@@ -148,13 +148,15 @@ async function load()
 {
     const svgToLoad = document.getElementById("loadFile")
 
-    if(svgToLoad == null) return
+    if(svgToLoad.files.length == 0) return
 
     svgText = await svgToLoad.files[0].text()
 
+    if(svgText == null) return
+
     let svg = document.getElementById("bg")
     svg.outerHTML = svgText
-    svg.id = "bg"
+    document.querySelector("svg").id = "bg"
 
     const anyDem = document.getElementsByClassName("dem")[0]
     const anyRep = document.getElementsByClassName("rep")[0]
@@ -173,10 +175,27 @@ async function load()
     if(demSquare && repSquare) {
         demSquare.classList.add("dem")
         repSquare.classList.add("rep")
+        setPartyBasedOnColor(demSquare.getAttribute("fill"), repSquare.getAttribute("fill"))
     }
 
     initialize()
     calculateVotes()
+}
+
+function setPartyBasedOnColor(demColor, repColor) {
+    const stateGroups = document.getElementsByClassName("state")
+    for(let j = 0; j < stateGroups.length; j++) {
+        const statePaths = stateGroups[j].children
+        for(let i = 0; i < statePaths.length; i++) {
+            let state = statePaths[i]
+            const rawStateColor = strToRgb(getComputedStyle(state).fill)
+            const stateColor = rgbToHex(rawStateColor[0], rawStateColor[1], rawStateColor[2]).toUpperCase()
+            if(state.classList.contains("dem") || state.classList.contains("rep")) continue
+            if(stateColor == demColor) state.classList.add("dem")
+            else if(stateColor == repColor) state.classList.add("rep")
+        }
+        
+    }
 }
 
 const saveButton = document.getElementById("saveButton")
@@ -200,8 +219,8 @@ function calculateVotes() {
     for(let i = 0; i < textElements.length; i++)
     {
         let text = textElements[i]
-        let textNumber = parseInt(text.innerHTML.trim())
         let associatedState = document.getElementById(text.id.split('n')[0])
+        let textNumber = parseInt(text.innerHTML.replace(associatedState.id, '').trim())
         if(text.id.endsWith('n') && associatedState && textNumber) {
             if(associatedState.classList.contains("dem"))
             {
@@ -211,6 +230,8 @@ function calculateVotes() {
             {
                 repElectors += textNumber
             }
+        }else{
+            console.log("could not tally for text with id " + text.id + " associatedState " + associatedState.id + " and number " + text.innerText)
         }
     } 
 
