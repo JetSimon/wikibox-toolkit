@@ -26,10 +26,10 @@ function initializeSliders() {
         slider.value = "100"
         slider.id = states[i].id + "_slider"
         slider.oninput = function() {
-            value.innerHTML = this.value + "%";
+            value.innerHTML = `${slider.value}% (${states[i].classList[0]})`
             calculateVotes()
         }
-        value.innerHTML = slider.value + "%"
+        value.innerHTML = `${slider.value}% (${states[i].classList[0]})`
 
         li.appendChild(label)
         li.appendChild(slider)
