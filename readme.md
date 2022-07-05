@@ -8,12 +8,12 @@ This is a chrome extension that houses a collection of tools for people who make
 - Select a range of text and change it's color easily with right click
 - Election map creation tool in the Options menu
 - Automatically calculate the popular vote, seat total, and percentage for an election map
+- Save and load map SVG files to edit later
 
 **TODO**
 
 - Add ability to split the vote in a state in election map creation tool
 - Add custom colors to right click menu
-- Add load SVG to map creator
 
 ## How to install
 
