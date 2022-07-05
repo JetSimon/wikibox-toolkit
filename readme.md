@@ -15,6 +15,9 @@ This is a chrome extension that houses a collection of tools for people who make
 
 - Add ability to split the vote in a state in election map creation tool
 - Add custom colors to right click menu
+- Make the map customization pretty with CSS
+- Clean up map customization code
+- Find and replace tool for wiki pages (right click)
 
 ## How to install
 
