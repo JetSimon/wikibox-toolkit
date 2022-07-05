@@ -17,7 +17,7 @@ for(let i = 0; i < colors.length; i++) {
     chrome.contextMenus.create({
         id: `text-color-${i}`,
         title: `Change selected text color to ${colors[i]}`,
-        contexts: ['all']
+        contexts: ['page', 'selection', 'selection', 'link']
     })
 }
 
