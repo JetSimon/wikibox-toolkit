@@ -23,7 +23,7 @@ function initializeSliders() {
         slider.type = "range"
         slider.min = "0"
         slider.max = "100"
-        slider.value = "100"
+        slider.value = "50"
         slider.id = states[i].id + "_slider"
         slider.oninput = function() {
             value.innerHTML = `${slider.value}% (${states[i].classList[0]})`
