@@ -14,6 +14,7 @@ This is a chrome extension that houses a collection of tools for people who make
 - Add ability to split the vote in a state in election map creation tool
 - Add custom colors to right click menu
 - Fix context menu to only show change color over evidence
+- Add load SVG to map creator
 
 ## How to install
 
