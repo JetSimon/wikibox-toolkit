@@ -13,10 +13,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 const colors = ['red', 'blue', 'pink', 'yellow', 'green', 'black']
 
+chrome.contextMenus.create({
+    id: `text-color`,
+    title: `Change selected text color to...`,
+    contexts: ['page', 'selection', 'selection', 'link']
+})
+
 for(let i = 0; i < colors.length; i++) {
     chrome.contextMenus.create({
         id: `text-color-${i}`,
-        title: `Change selected text color to ${colors[i]}`,
+        parentId: 'text-color',
+        title: colors[i],
         contexts: ['page', 'selection', 'selection', 'link']
     })
 }
