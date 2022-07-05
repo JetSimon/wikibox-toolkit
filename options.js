@@ -151,6 +151,6 @@ function calculateVotes() {
     const demPop = Math.round(demRatio * parseInt(totalPop.value))
     const repPop = Math.round(repRatio * parseInt(totalPop.value))
 
-    demVotes.innerText = `${demPop} (${(demRatio * 100).toFixed(2)}%) - ${demElectors} Seats`
-    repVotes.innerText = `${repPop} (${(repRatio * 100).toFixed(2)}%) - ${repElectors} Seats`
+    demVotes.innerText = `${demPop} (${(demRatio * 100).toFixed(2)}%) - ${demElectors} Electoral Votes`
+    repVotes.innerText = `${repPop} (${(repRatio * 100).toFixed(2)}%) - ${repElectors} Electoral Votes`
 }
