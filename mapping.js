@@ -191,6 +191,7 @@ async function load()
     }
 
     initialize()
+    resetSliders()
     calculateVotes()
 }
 
@@ -222,6 +223,8 @@ const repVotes = document.getElementById("repvotes")
 function calculateVotes() {
     let demElectors = 0
     let repElectors = 0
+    let demPopFactor = 0
+    let repPopFactor = 0
 
     const textElements = document.querySelectorAll("text")
     for(let i = 0; i < textElements.length; i++)
@@ -230,13 +233,23 @@ function calculateVotes() {
         let associatedState = document.getElementById(text.id.split('n')[0])
         let textNumber = parseInt(text.innerHTML.replace(associatedState.id, '').trim())
         if(text.id.endsWith('n') && associatedState && textNumber) {
+            let weight = 1
+            let weightSlider = document.getElementById(associatedState.id + "_slider")
+            if(weightSlider)
+            {
+                weight = weightSlider.value / 100
+            }
             if(associatedState.classList.contains("dem"))
             {
-                demElectors += textNumber
+                demElectors += textNumber 
+                demPopFactor += textNumber * weight
+                repPopFactor += textNumber * (1 - weight)
             }
             else if(associatedState.classList.contains("rep"))
             {
                 repElectors += textNumber
+                repPopFactor += textNumber * weight
+                demPopFactor += textNumber * (1 - weight)
             }
         }else{
             console.log("could not tally for text with id " + text.id + " associatedState " + associatedState.id + " and number " + text.innerText)
@@ -246,8 +259,11 @@ function calculateVotes() {
     let totalElectors = demElectors + repElectors
     if(totalElectors == 0) totalElectors = 1
 
-    const demRatio = demElectors / totalElectors
-    const repRatio = repElectors / totalElectors
+    let totalPopFactor = demPopFactor + repPopFactor
+    if(totalPopFactor == 0) totalPopFactor = 1
+
+    const demRatio = demPopFactor / totalPopFactor
+    const repRatio = repPopFactor / totalPopFactor
 
     const demPop = Math.round(demRatio * parseInt(totalPop.value))
     const repPop = Math.round(repRatio * parseInt(totalPop.value))
