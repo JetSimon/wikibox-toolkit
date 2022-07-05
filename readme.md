@@ -14,6 +14,7 @@ This is a chrome extension that houses a collection of tools for people who make
 
 - Add ability to split the vote in a state in election map creation tool
 - Add custom colors to right click menu
+- Add sliders for each state to set how split the vote was, adjust percentage accordingly.
 
 ## How to install
 
