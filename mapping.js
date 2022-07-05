@@ -88,6 +88,7 @@ function initializeText()
         let text = textElements[i]
         text.addEventListener("click", () => {
             if(selectedText == text) return
+            resetSelectedText()
             selectedText = text
             text.innerHTML += '|'
             text.style.fill = 'green'
