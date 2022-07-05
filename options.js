@@ -31,7 +31,7 @@ function hexToRgb(hex) {
 
 function initializeStates()
 {
-    const statePaths = document.getElementsByClassName("state")[0].children
+    const statePaths = getAllStates()
     for(let i = 0; i < statePaths.length; i++) {
         let state = statePaths[i]
         state.addEventListener("click", setColor)
@@ -95,7 +95,19 @@ function initializeText()
     }
 }
 
+function getAllStates() {
+    let states = []
+    
+    const stateGroups = document.getElementsByClassName("state")
+    for(let j = 0; j < stateGroups.length; j++) {
+        const statePaths = stateGroups[j].children
+        for(let i = 0; i < statePaths.length; i++) {
+            states.push(statePaths[i])
+        }
+    }
 
+    return states
+}
 
 document.addEventListener("keyup", function(event) {
     if (event.key === "Return" || event.key === "Enter") {
@@ -183,18 +195,14 @@ async function load()
 }
 
 function setPartyBasedOnColor(demColor, repColor) {
-    const stateGroups = document.getElementsByClassName("state")
-    for(let j = 0; j < stateGroups.length; j++) {
-        const statePaths = stateGroups[j].children
-        for(let i = 0; i < statePaths.length; i++) {
-            let state = statePaths[i]
-            const rawStateColor = strToRgb(getComputedStyle(state).fill)
-            const stateColor = rgbToHex(rawStateColor[0], rawStateColor[1], rawStateColor[2]).toUpperCase()
-            if(state.classList.contains("dem") || state.classList.contains("rep")) continue
-            if(stateColor == demColor) state.classList.add("dem")
-            else if(stateColor == repColor) state.classList.add("rep")
-        }
-        
+    const statePaths = getAllStates()
+    for(let i = 0; i < statePaths.length; i++) {
+        let state = statePaths[i]
+        const rawStateColor = strToRgb(getComputedStyle(state).fill)
+        const stateColor = rgbToHex(rawStateColor[0], rawStateColor[1], rawStateColor[2]).toUpperCase()
+        if(state.classList.contains("dem") || state.classList.contains("rep")) continue
+        if(stateColor == demColor) state.classList.add("dem")
+        else if(stateColor == repColor) state.classList.add("rep")
     }
 }
 
