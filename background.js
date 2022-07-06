@@ -2,7 +2,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
         chrome.scripting.executeScript({
             target: { tabId: tabId },
-            files: ["./textColorTool.js"]
+            files: ["./textColorTool.js", "./findAndReplaceTool.js"]
         })
             .then(() => {
                 console.log("INJECTED TOOLING SCRIPTS.");
@@ -16,6 +16,12 @@ const colors = ['red', 'blue', 'pink', 'yellow', 'green', 'black']
 chrome.contextMenus.create({
     id: `text-color`,
     title: `Change selected text color to...`,
+    contexts: ['page', 'selection', 'selection', 'link']
+})
+
+chrome.contextMenus.create({
+    id: `find-and-replace`,
+    title: `Find and replace`,
     contexts: ['page', 'selection', 'selection', 'link']
 })
 
@@ -34,6 +40,9 @@ function contextClick(info, tab) {
     if (menuItemId.includes("text-color-")) {
         const color = colors[parseInt(menuItemId.split("text-color-")[1])];
         chrome.tabs.sendMessage(tab.id, {"message":"textColorClicked", "color":color}, function (response) {})
+    }
+    else if (menuItemId == "find-and-replace") {
+        chrome.tabs.sendMessage(tab.id, {"message":"findAndReplace"}, function (response) {})
     }
 }
 

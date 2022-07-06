@@ -10,6 +10,7 @@ This is a chrome extension that houses a collection of tools for people who make
 - Automatically calculate the popular vote, seat total, and percentage for an election map
   - Sliders for each state to set how split the vote was, adjust popular vote percentage accordingly.
 - Save and load map SVG files to edit later
+- Find and replace text on a wikipedia page (case sensitive)
 
 **TODO**
 
@@ -17,8 +18,6 @@ This is a chrome extension that houses a collection of tools for people who make
 - Add custom colors to right click menu
 - Make the map customization pretty with CSS
 - Clean up map customization code
-- Find and replace tool for wiki pages (right click)
-- Move some of these items into *issues*
 
 ## How to install
 
