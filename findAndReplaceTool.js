@@ -12,6 +12,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return
         }
 
+        console.log(document.body.innerText)
+
         document.body.innerHTML = document.body.innerHTML.replaceAll(toFind, replacementText)
         sendResponse({ message: 'success' })
     }

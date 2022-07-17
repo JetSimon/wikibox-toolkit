@@ -2,7 +2,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
         chrome.scripting.executeScript({
             target: { tabId: tabId },
-            files: ["./textColorTool.js", "./findAndReplaceTool.js"]
+            files: ["./textColorTool.js", "./findAndReplaceTool.js", "./clearVisitedLinks.js"]
         })
             .then(() => {
                 console.log("INJECTED TOOLING SCRIPTS.");
@@ -25,6 +25,12 @@ chrome.contextMenus.create({
     contexts: ['page', 'selection', 'selection', 'link']
 })
 
+chrome.contextMenus.create({
+    id: `clear-visited-links`,
+    title: `Clear visited links`,
+    contexts: ['page', 'selection', 'selection', 'link']
+})
+
 for(let i = 0; i < colors.length; i++) {
     chrome.contextMenus.create({
         id: `text-color-${i}`,
@@ -43,6 +49,9 @@ function contextClick(info, tab) {
     }
     else if (menuItemId == "find-and-replace") {
         chrome.tabs.sendMessage(tab.id, {"message":"findAndReplace"}, function (response) {})
+    }
+    else if (menuItemId == "clear-visited-links") {
+        chrome.tabs.sendMessage(tab.id, {"message":"clearVisitedLinks"}, function (response) {})
     }
 }
 
