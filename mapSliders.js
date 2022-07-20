@@ -3,7 +3,7 @@ let summary = document.createElement("summary")
 details.style.marginTop = "10px"
 summary.innerHTML = "Voting Proportion Sliders"
 details.appendChild(summary)
-document.body.appendChild(details)
+document.getElementById("mainDiv").appendChild(details)
 
 let sliderParent
 

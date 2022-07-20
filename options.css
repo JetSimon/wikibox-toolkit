@@ -1,0 +1,43 @@
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+body {
+    font-family: Helvetica, Arial,  sans-serif;
+    font-size: medium;
+    background-color: rgb(255, 255, 255);
+}
+
+svg {
+    background-color: white;
+    margin: auto;
+    margin-bottom:8px;
+    display:block
+}
+
+.outlined {
+    border: 2px solid #9b9b94;
+    border-radius: 1%;
+}
+
+.shadow {
+    box-shadow: 3px 3px rgb(198, 208, 211);
+}
+
+.options {
+    color:black;
+    background-color:rgb(247, 251, 255);
+    width:100%;
+    padding: 10px;
+    margin-top: 16px;
+}
+
+a {
+    color:cornflowerblue;
+}
+
+.smallfont {
+    font-size: small;
+}

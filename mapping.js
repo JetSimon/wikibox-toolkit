@@ -209,6 +209,9 @@ async function load()
 
     svg.outerHTML = svgText
     document.querySelector("svg").id = "bg"
+    svg = document.getElementById("bg")
+    svg.classList.add("shadow")
+    svg.classList.add("outlined")
 
     const anyDem = document.getElementsByClassName("dem")[0]
     const anyRep = document.getElementsByClassName("rep")[0]
