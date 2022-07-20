@@ -12,6 +12,7 @@ This is a chrome extension that houses a collection of tools for people who make
 - Save and load map SVG files to edit later
 - Find and replace text on a wikipedia page (case sensitive)
 - A clear visited links button in the right click menu that resets all link styles.
+- Easily add and remove rows from election infoboxes
 
 **TODO**
 
