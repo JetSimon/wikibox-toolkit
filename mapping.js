@@ -7,6 +7,7 @@ let selectingMove = false
 let selectedMoveText = null
 
 let svg = document.getElementById("bg")
+let pt = svg.createSVGPoint();
 
 function componentToHex(c) {
     var hex = parseInt(c).toString(16);
@@ -117,8 +118,13 @@ document.addEventListener("mousemove", (event) => {
         selectedMoveText = null
         return
     }
-    selectedMoveText.setAttribute('x', event.clientX)
-    selectedMoveText.setAttribute('y', event.clientY)
+
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    var cursorpt = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    selectedMoveText.setAttribute('x', cursorpt.x)
+    selectedMoveText.setAttribute('y', cursorpt.y)
 })
 
 document.addEventListener("mouseup", (event) => {
@@ -212,6 +218,7 @@ async function load()
     svg = document.getElementById("bg")
     svg.classList.add("shadow")
     svg.classList.add("outlined")
+    pt = svg.createSVGPoint();
 
     const anyDem = document.getElementsByClassName("dem")[0]
     const anyRep = document.getElementsByClassName("rep")[0]
