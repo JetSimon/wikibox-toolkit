@@ -3,6 +3,11 @@ const repColorPicker = document.getElementById("rep")
 
 let selectedText = null
 
+let selectingMove = false
+let selectedMoveText = null
+
+let svg = document.getElementById("bg")
+
 function componentToHex(c) {
     var hex = parseInt(c).toString(16);
     return hex.length == 1 ? "0" + hex : hex;
@@ -86,15 +91,39 @@ function initializeText()
 
     for(let i = 0; i < textElements.length; i++) {
         let text = textElements[i]
+        text.style.userSelect = 'none'
         text.addEventListener("click", () => {
-            if(selectedText == text) return
+
+            if(selectedText == text || selectingMove) return
+            selectedMoveText = null
             resetSelectedText()
             selectedText = text
             text.innerHTML += '|'
             text.style.fill = 'green'
         })
+
+        text.addEventListener("mousedown", (event) => {
+            if(selectingMove)
+            {
+                console.log("moving" + text)
+                selectedMoveText = text
+            }
+        })
     }
 }
+
+document.addEventListener("mousemove", (event) => {
+    if(selectedMoveText == null || !selectingMove) {
+        selectedMoveText = null
+        return
+    }
+    selectedMoveText.setAttribute('x', event.clientX)
+    selectedMoveText.setAttribute('y', event.clientY)
+})
+
+document.addEventListener("mouseup", (event) => {
+    selectedMoveText = null
+})
 
 function getAllStates() {
     let states = []
@@ -110,7 +139,18 @@ function getAllStates() {
     return states
 }
 
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Alt") {
+        selectingMove = true
+    }
+});
+
 document.addEventListener("keyup", function(event) {
+
+    if (event.key === "Alt") {
+        selectingMove = false
+    }
+
     if (event.key === "Return" || event.key === "Enter") {
         resetSelectedText()
         calculateVotes()
@@ -167,7 +207,6 @@ async function load()
 
     if(svgText == null) return
 
-    let svg = document.getElementById("bg")
     svg.outerHTML = svgText
     document.querySelector("svg").id = "bg"
 
