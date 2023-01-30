@@ -1,5 +1,6 @@
 const demColorPicker = document.getElementById("dem")
 const repColorPicker = document.getElementById("rep")
+const indColorPicker = document.getElementById("ind")
 
 let selectedText = null
 
@@ -8,6 +9,8 @@ let selectedMoveText = null
 
 let svg = document.getElementById("bg")
 let pt = svg.createSVGPoint();
+
+let foundAnyInd = false;
 
 function componentToHex(c) {
     var hex = parseInt(c).toString(16);
@@ -57,18 +60,34 @@ document.addEventListener("click", clickBody)
 
 demColorPicker.addEventListener("change", updateAllOfType)
 repColorPicker.addEventListener("change", updateAllOfType)
+indColorPicker.addEventListener("change", updateAllOfType)
 
 function setColor() {
     resetSelectedText()
    
-    if(this.classList.length == 0) this.classList.add("rep")
+    if(this.classList.length == 0) this.classList.add("dem")
 
     const dem = this.classList.contains("dem")
+    const rep = this.classList.contains("rep")
+    const ind = this.classList.contains("ind")
+
     if(dem) {
         this.classList.replace("dem", "rep")
         this.style.fill = repColorPicker.value
-    } else {
-        this.classList.replace("rep", "dem")
+    } else if(rep) {
+        if(foundAnyInd)
+        {
+            this.classList.replace("rep", "ind")
+            this.style.fill = indColorPicker.value
+        }
+        else
+        {
+            this.classList.replace("rep", "dem")
+            this.style.fill = demColorPicker.value
+        }
+    }
+    else if(foundAnyInd && ind) {
+        this.classList.replace("ind", "dem")
         this.style.fill = demColorPicker.value
     }
 
@@ -222,6 +241,7 @@ async function load()
 
     const anyDem = document.getElementsByClassName("dem")[0]
     const anyRep = document.getElementsByClassName("rep")[0]
+    const anyInd = document.getElementsByClassName("ind")[0]
 
     if(anyDem && anyRep) {
         const demColor = strToRgb(anyDem.style.fill)
@@ -233,19 +253,26 @@ async function load()
 
     const demSquare = document.getElementById("Dem")
     const repSquare = document.getElementById("Rep")
+    const indSquare = document.getElementById("Ind")
 
     if(demSquare && repSquare) {
         demSquare.classList.add("dem")
         repSquare.classList.add("rep")
-        setPartyBasedOnColor(demSquare.getAttribute("fill"), repSquare.getAttribute("fill"))
+        if(indSquare) {
+            indSquare.classList.add("ind")
+        }
+
+        setPartyBasedOnColor(demSquare.getAttribute("fill"), repSquare.getAttribute("fill"), indSquare.getAttribute("fill"))
     }
 
     initialize()
     resetSliders()
     calculateVotes()
+
+    foundAnyInd = indSquare != null
 }
 
-function setPartyBasedOnColor(demColor, repColor) {
+function setPartyBasedOnColor(demColor, repColor, indColor = null) {
     const statePaths = getAllStates()
     for(let i = 0; i < statePaths.length; i++) {
         let state = statePaths[i]
@@ -254,6 +281,7 @@ function setPartyBasedOnColor(demColor, repColor) {
         if(state.classList.contains("dem") || state.classList.contains("rep")) continue
         if(stateColor == demColor) state.classList.add("dem")
         else if(stateColor == repColor) state.classList.add("rep")
+        else if(indColor != null && stateColor == indColor) state.classList.add("ind")
     }
 }
 
@@ -281,7 +309,19 @@ function calculateVotes() {
     {
         let text = textElements[i]
         let associatedState = document.getElementById(text.id.split('n')[0])
+
+        if(associatedState == null)
+        {
+            continue
+        }
+
         let textNumber = parseInt(text.innerHTML.replace(associatedState.id, '').trim())
+
+        if(textNumber == null)
+        {
+            continue
+        }
+
         if(text.id.endsWith('n') && associatedState && textNumber) {
             let weight = 1
             let weightSlider = document.getElementById(associatedState.id + "_slider")
