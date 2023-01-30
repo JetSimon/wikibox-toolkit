@@ -262,7 +262,7 @@ async function load()
             indSquare.classList.add("ind")
         }
 
-        setPartyBasedOnColor(demSquare.getAttribute("fill"), repSquare.getAttribute("fill"), indSquare.getAttribute("fill"))
+        setPartyBasedOnColor(demSquare.getAttribute("fill"), repSquare.getAttribute("fill"), indSquare?.getAttribute("fill"))
     }
 
     initialize()
